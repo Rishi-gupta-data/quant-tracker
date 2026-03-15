@@ -889,3 +889,82 @@ body {
   .quiz-setup-stats { grid-template-columns: 1fr; }
   .fc-flip-wrap { height: 240px; }
 }
+
+/* ══════════════ DB / SETTINGS PAGE ══════════════ */
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.settings-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 22px 24px;
+}
+.settings-card h3 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text3); font-family: var(--font-mono);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+.settings-card h3 span { font-size: 16px; }
+.db-stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.db-stat-row:last-child { border-bottom: none; }
+.db-stat-row span { color: var(--text3); font-family: var(--font-mono); font-size: 11px; }
+.db-stat-row strong { color: var(--text); font-family: var(--font-mono); font-size: 12px; }
+
+.settings-btn {
+  width: 100%; padding: 10px 16px; margin-bottom: 8px;
+  border-radius: 8px; border: 1.5px solid var(--border2);
+  background: transparent; color: var(--text2);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: var(--font-body); text-align: left;
+  transition: all .15s; display: flex; align-items: center; gap: 10px;
+}
+.settings-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,.05); }
+.settings-btn.danger { border-color: rgba(239,68,68,.4); color: var(--red); }
+.settings-btn.danger:hover { background: rgba(239,68,68,.08); border-color: var(--red); }
+.settings-btn .btn-icon { font-size: 16px; }
+
+.week-setter { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+.week-setter input {
+  width: 80px; background: var(--surface2); border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 9px 12px; color: var(--text);
+  font-size: 14px; font-weight: 700; font-family: var(--font-mono);
+  outline: none; text-align: center;
+}
+.week-setter input:focus { border-color: var(--accent); }
+.week-setter button {
+  padding: 9px 20px; background: var(--accent);
+  border: none; border-radius: 8px; color: white;
+  font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font-body);
+}
+
+.db-badge {
+  display: inline-block; padding: 2px 8px;
+  border-radius: 10px; font-size: 10px; font-weight: 700;
+  font-family: var(--font-mono); background: rgba(16,185,129,.1);
+  color: var(--green); margin-left: auto;
+}
+
+/* ── Boot loader ── */
+#boot-loader {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; z-index: 9999;
+  gap: 16px;
+}
+.boot-logo {
+  font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--text);
+}
+.boot-sub {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text3);
+  letter-spacing: 1.5px; text-transform: uppercase;
+}
+.boot-spinner {
+  width: 36px; height: 36px; border: 3px solid var(--border2);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.boot-status {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text3);
+}

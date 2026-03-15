@@ -20,6 +20,7 @@ function navigate(page) {
   else if (page === 'tasks') renderTasks();
   else if (page === 'review') renderReview();
   else if (page === 'notes') renderNotes();
+  else if (page === 'settings') renderSettings();
 }
 
 window.addEventListener('hashchange', () => {
@@ -663,12 +664,59 @@ function openLogModal() {
 }
 function closeLogModal() { document.getElementById('log-modal').classList.remove('open'); }
 
+// ═══════════════════ SETTINGS PAGE ═══════════════════
+async function renderSettings() {
+  await renderDBStatus();
+
+  // Sync sidebar week badge
+  const w = load(STORE.CURRENT_WEEK, 1);
+  const inp = document.getElementById('settings-week-input');
+  if (inp) inp.value = w;
+
+  // Phase selects in settings
+  ['log-phase-select', 'log-phase-select-modal'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) sel.innerHTML = APP_DATA.phases.map(p => `<option value="${p.id}">Phase ${p.num}: ${p.title}</option>`).join('');
+  });
+}
+
+function setCurrentWeek() {
+  const val = parseInt(document.getElementById('settings-week-input')?.value);
+  if (!val || val < 1 || val > 43) { showToast('Week must be 1–43', 'error'); return; }
+  save(STORE.CURRENT_WEEK, val);
+  const badge = document.getElementById('sidebar-week');
+  if (badge) badge.textContent = val;
+  showToast('Current week set to Week ' + val + ' ✓');
+}
+
 // ═══════════════════ INIT ═══════════════════
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Show loading spinner
+  document.getElementById('boot-loader')?.style.setProperty('display', 'flex');
+
+  // 1. Init PouchDB and load all data into memory cache
+  await initDB();
+  await loadAllIntoCache();
+
+  // 2. Hide loader
+  document.getElementById('boot-loader')?.style.setProperty('display', 'none');
+
+  // 3. Build phase selects
+  ['log-phase-select', 'log-phase-select-modal'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) sel.innerHTML = APP_DATA.phases.map(p => `<option value="${p.id}">Phase ${p.num}: ${p.title}</option>`).join('');
+  });
+
+  // 4. Sync sidebar week badge
+  const w = load(STORE.CURRENT_WEEK, 1);
+  const badge = document.getElementById('sidebar-week');
+  if (badge) badge.textContent = w;
+
+  // 5. Navigate to page
   const page = location.hash.replace('#','') || 'dashboard';
   navigate(page);
 
-  // Keyboard nav for flashcards
+  // 6. Keyboard nav for flashcards
   document.addEventListener('keydown', e => {
     if (currentPage !== 'flashcards') return;
     if (e.key === 'ArrowRight') nextCard();
@@ -678,8 +726,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === '2') markFC('review');
   });
 
-  // Close modal on backdrop click
+  // 7. Close modal on backdrop click
   document.getElementById('log-modal')?.addEventListener('click', e => {
     if (e.target === e.currentTarget) closeLogModal();
   });
+
+  // 8. Show DB indicator in sidebar
+  const dbBadge = document.getElementById('db-engine-badge');
+  if (dbBadge) dbBadge.textContent = _dbReady ? '● PouchDB' : '● localStorage';
+  if (dbBadge) dbBadge.style.color = _dbReady ? '#10b981' : '#f59e0b';
 });
+
+
+// Called from modal (was inline in HTML)
+function logFromModal() {
+  const hours = parseFloat(document.getElementById('modal-hours').value);
+  const note = document.getElementById('modal-note').value;
+  const phase = parseInt(document.getElementById('log-phase-select-modal').value);
+  if (!hours || hours <= 0) { showToast('Enter valid hours', 'error'); return; }
+  const studyLog = load(STORE.STUDY_LOG, []);
+  studyLog.push({ hours, note, phase, date: new Date().toISOString() });
+  save(STORE.STUDY_LOG, studyLog);
+  closeLogModal();
+  showToast('Session logged! +' + hours + ' hrs 📚');
+  if (currentPage === 'dashboard') renderDashboard();
+  if (currentPage === 'review') renderReview();
+}

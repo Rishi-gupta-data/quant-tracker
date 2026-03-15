@@ -7,9 +7,18 @@
 <meta name="description" content="Personal quant finance & algo trading study tracker for Rishi Gupta"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="css/style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>"/>
 </head>
 <body>
+
+<!-- ══════════════ BOOT LOADER ══════════════ -->
+<div id="boot-loader">
+  <div class="boot-spinner"></div>
+  <div class="boot-logo">📈 Quant Tracker</div>
+  <div class="boot-sub">Initialising database...</div>
+  <div class="boot-status" id="boot-status">Loading PouchDB...</div>
+</div>
 
 <!-- ══════════════ SIDEBAR ══════════════ -->
 <aside class="sidebar">
@@ -48,6 +57,13 @@
     </button>
   </div>
 
+  <div class="nav-section">
+    <div class="nav-section-label">System</div>
+    <button class="nav-link" data-page="settings" onclick="navigate('settings')">
+      <span class="nav-icon">⚙️</span><span>Settings & DB</span>
+    </button>
+  </div>
+
   <div class="sidebar-bottom">
     <button class="log-btn" onclick="openLogModal()">
       <span>+ Log Study Hours</span>
@@ -56,6 +72,7 @@
       <div>Current Week</div>
       <span id="sidebar-week">1</span>
     </div>
+    <div style="text-align:center;margin-top:8px;font-size:10px" id="db-engine-badge">● loading...</div>
   </div>
 </aside>
 
@@ -340,6 +357,80 @@
     <button class="save-note-btn" onclick="saveNote()">Save Notes</button>
   </div>
 
+  <!-- ── SETTINGS & DB ── -->
+  <div id="page-settings" class="page">
+    <div class="page-header">
+      <h1>Settings & Database</h1>
+      <p>Manage your data, backup/restore, and configure the app</p>
+    </div>
+
+    <div class="settings-grid">
+
+      <!-- DB Status -->
+      <div class="settings-card">
+        <h3><span>🗄️</span> Database Status</h3>
+        <div id="db-status-panel">
+          <div class="db-stat-row"><span>Status</span><strong>Loading...</strong></div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--text3);font-family:var(--font-mono);line-height:1.7">
+          PouchDB stores data in your browser's IndexedDB — much more reliable than localStorage. No size limits, no data loss on storage pressure. All data stays on your device.
+        </div>
+      </div>
+
+      <!-- Current Week -->
+      <div class="settings-card">
+        <h3><span>📅</span> Study Progress</h3>
+        <div style="font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-bottom:10px">Set your current week (1–43)</div>
+        <div class="week-setter">
+          <input type="number" id="settings-week-input" min="1" max="43" value="1"/>
+          <button onclick="setCurrentWeek()">Update</button>
+        </div>
+        <div style="margin-top:16px;font-size:12px;color:var(--text3);font-family:var(--font-mono)">
+          This syncs the task list and review page to show the correct week's content.
+        </div>
+      </div>
+
+      <!-- Backup & Restore -->
+      <div class="settings-card">
+        <h3><span>💾</span> Backup & Restore</h3>
+        <button class="settings-btn" onclick="exportData()">
+          <span class="btn-icon">⬇️</span> Export all data as JSON
+        </button>
+        <button class="settings-btn" onclick="importData()">
+          <span class="btn-icon">⬆️</span> Import from JSON backup
+        </button>
+        <div style="margin-top:10px;padding:10px 12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;font-size:11px;color:#f59e0b;font-family:var(--font-mono);line-height:1.7">
+          💡 Export weekly to keep a backup. Your data is safe in IndexedDB but clearing browser data will erase it.
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="settings-card">
+        <h3><span>⚠️</span> Danger Zone</h3>
+        <button class="settings-btn danger" onclick="clearAllData()">
+          <span class="btn-icon">🗑️</span> Clear all data (irreversible)
+        </button>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3);font-family:var(--font-mono);line-height:1.7">
+          Deletes all progress, notes, study logs, flashcard status, and quiz scores from both PouchDB and localStorage. Export first!
+        </div>
+      </div>
+
+    </div>
+
+    <!-- About -->
+    <div class="settings-card" style="margin-top:20px">
+      <h3><span>ℹ️</span> About</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:12px;font-family:var(--font-mono)">
+        <div><span style="color:var(--text3)">App</span><br><strong>Quant Tracker v2.0</strong></div>
+        <div><span style="color:var(--text3)">Plan</span><br><strong>10 months · 20 hrs/wk</strong></div>
+        <div><span style="color:var(--text3)">DB Engine</span><br><strong id="about-db-engine">PouchDB 9 (IndexedDB)</strong></div>
+        <div><span style="color:var(--text3)">Flashcards</span><br><strong>23 cards</strong></div>
+        <div><span style="color:var(--text3)">Quiz Questions</span><br><strong>14 questions</strong></div>
+        <div><span style="color:var(--text3)">Total Topics</span><br><strong>58 topics</strong></div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <!-- ══════════════ LOG MODAL ══════════════ -->
@@ -369,47 +460,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="js/data.js"></script>
+<script src="js/db.js"></script>
 <script src="js/app.js"></script>
-<script>
-// Extra helpers
-document.addEventListener('DOMContentLoaded', () => {
-  // Sync sidebar week badge
-  const w = load(STORE.CURRENT_WEEK, 1);
-  const el = document.getElementById('sidebar-week');
-  if (el) el.textContent = w;
-
-  // Build phase selects
-  ['log-phase-select', 'log-phase-select-modal'].forEach(id => {
-    const sel = document.getElementById(id);
-    if (sel) sel.innerHTML = APP_DATA.phases.map(p => `<option value="${p.id}">Phase ${p.num}: ${p.title}</option>`).join('');
-  });
-
-  // Dash fc known count
-  const fcStatus = load(STORE.FC_STATUS, {});
-  const known = Object.values(fcStatus).filter(v => v === 'known').length;
-  const el2 = document.getElementById('dash-fc-known');
-  if (el2) el2.textContent = known;
-
-  // Streak card
-  const studyLog = load(STORE.STUDY_LOG, []);
-  const streak = calcStreak(studyLog);
-  const sc = document.getElementById('dash-streak-card');
-  if (sc) sc.textContent = streak;
-});
-
-function logFromModal() {
-  const hours = parseFloat(document.getElementById('modal-hours').value);
-  const note = document.getElementById('modal-note').value;
-  const phase = parseInt(document.getElementById('log-phase-select-modal').value);
-  if (!hours || hours <= 0) { showToast('Enter valid hours', 'error'); return; }
-  const studyLog = load(STORE.STUDY_LOG, []);
-  studyLog.push({ hours, note, phase, date: new Date().toISOString() });
-  save(STORE.STUDY_LOG, studyLog);
-  closeLogModal();
-  showToast('Session logged! +' + hours + ' hrs 📚');
-  if (currentPage === 'dashboard') renderDashboard();
-  if (currentPage === 'review') renderReview();
-}
-</script>
 </body>
 </html>
