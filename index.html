@@ -195,6 +195,18 @@
         <div id="dash-activity"></div>
       </div>
     </div>
+
+    <!-- Reminders -->
+    <div class="dash-grid" style="grid-template-columns: 1fr; margin-top: 16px;">
+      <div class="panel">
+        <div class="panel-title">🔔 Study Reminders & Notes</div>
+        <div class="add-task-row">
+          <input type="text" id="new-reminder-input" placeholder="Add a reminder (e.g. Watch StatQuest Video at 8PM)..." onkeydown="if(event.key==='Enter')addReminder()"/>
+          <button class="add-btn" onclick="addReminder()">+ Add</button>
+        </div>
+        <div id="reminders-list" style="margin-top:16px; display:flex; flex-direction:column; gap: 8px;"></div>
+      </div>
+    </div>
   </div>
 
   <!-- ── PROGRESS ── -->
@@ -400,6 +412,569 @@
     <div class="notes-label" id="notes-phase-label"></div>
     <textarea id="notes-textarea" placeholder="Write your notes here...&#10;&#10;Supports plain text. Use markdown-style formatting:&#10;## Headers&#10;- Bullet points&#10;**Bold** *italic*&#10;&#10;Formula: wᵀΣw = portfolio variance&#10;Code: pip install pandas yfinance"></textarea>
     <button class="save-note-btn" onclick="saveNote()">Save Notes</button>
+  </div>
+
+  <!-- ── CURRICULUM ── -->
+  <div id="page-curriculum" class="page">
+    <div class="page-header">
+      <h1>Curriculum & Video Links</h1>
+      <p>Full 12-month study plan with YouTube links, notebooks, and resources.</p>
+    </div>
+    <div style="max-width: 800px;">
+      
+<!-- LEGEND -->
+<div class="curr-legend">
+  <span>Resource types:</span>
+  <a class="curr-res vid"  href="#">Video / Course</a>
+  <a class="curr-res book" href="#">Book / PDF</a>
+  <a class="curr-res nb"   href="#">Notebook / Code</a>
+  <a class="curr-res web"  href="#">Website / Docs</a>
+  <a class="curr-res paper" href="#">Paper / Article</a>
+  <a class="curr-res tool"  href="#">Tool / Platform</a>
+</div>
+
+<!-- TIMELINE -->
+<div class="curr-timeline">
+  <h2>12-Month Learning Roadmap</h2>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 1</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:12%;background:#1a4f8a;">Foundations</div></div>
+    <div class="curr-tl-dur">6 wks</div>
+  </div>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 2</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:16%;background:#1b6caa;">Quant Methods</div></div>
+    <div class="curr-tl-dur">8 wks</div>
+  </div>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 3</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:12%;background:#2481c5;">Fin Markets</div></div>
+    <div class="curr-tl-dur">6 wks</div>
+  </div>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 4</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:12%;background:#2e86de;">Python Finance</div></div>
+    <div class="curr-tl-dur">6 wks</div>
+  </div>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 5</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:20%;background:#388e3c;">ML for Trading</div></div>
+    <div class="curr-tl-dur">10 wks</div>
+  </div>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 6</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:16%;background:#e65100;">Algo Systems</div></div>
+    <div class="curr-tl-dur">8 wks</div>
+  </div>
+  <div class="curr-tl-row">
+    <div class="curr-tl-label">Phase 7</div>
+    <div class="curr-tl-bar-wrap"><div class="curr-tl-bar" style="width:16%;background:#6a1b9a;">AI / Deep Learn</div></div>
+    <div class="curr-tl-dur">8 wks</div>
+  </div>
+</div>
+
+<!-- PHASE 1 -->
+<div class="curr-phase" id="phase1">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">1</div>
+    <h2>Foundations — Math, Stats &amp; Python Basics</h2>
+    <div class="dur">Weeks 1–6</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Build the mathematical and programming bedrock. By the end you should be comfortable with linear algebra, calculus, probability, and basic Python data manipulation.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">1.1 Mathematics for Finance</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Linear Algebra</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2ZAgoAsOulre2X" target="_blank">3Blue1Brown — Essence of Linear Algebra</a>
+          <a class="curr-res book" href="https://www.math.ucdavis.edu/~linear/linear-guest.pdf" target="_blank">Linear Algebra (Lay) — Free PDF</a>
+          <a class="curr-res nb" href="https://colab.research.google.com" target="_blank">Practice on Google Colab</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Calculus &amp; Optimization</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr" target="_blank">3Blue1Brown — Essence of Calculus</a>
+          <a class="curr-res web" href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/" target="_blank">MIT OCW — Single Variable Calculus</a>
+          <a class="curr-res web" href="https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/" target="_blank">MIT OCW — Multivariable Calculus</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Probability Theory</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/playlist?list=PLUl4u3cNGP60hI9ATjSFgLZpbNJ7myAg6" target="_blank">MIT — Probability &amp; Statistics (18.650)</a>
+          <a class="curr-res book" href="https://www.probabilitycourse.com/" target="_blank">Probability Course (free textbook)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">1.2 Python Programming Primer</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Python Basics → Intermediate</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" target="_blank">Mosh — Python for Beginners (6hr)</a>
+          <a class="curr-res web" href="https://docs.python.org/3/tutorial/" target="_blank">Official Python Tutorial</a>
+          <a class="curr-res web" href="https://www.learnpython.org/" target="_blank">learnpython.org (interactive)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">NumPy, Pandas, Matplotlib</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=r-uOLxNrNk8" target="_blank">NumPy Full Course — freeCodeCamp</a>
+          <a class="curr-res web" href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html" target="_blank">Pandas Official Tutorials</a>
+          <a class="curr-res nb" href="https://github.com/jakevdp/PythonDataScienceHandbook" target="_blank">Python Data Science Handbook (GitHub)</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 1 Mini-Project</div>
+      <p>Download Nifty 50 daily OHLCV data from NSE/Yahoo Finance. Compute daily returns, rolling mean &amp; std, and plot distributions using Matplotlib/Seaborn. Implement a covariance matrix from scratch using NumPy.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="curr-phase" id="phase2">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">2</div>
+    <h2>Quantitative Methods — Statistics &amp; Econometrics</h2>
+    <div class="dur">Weeks 7–14</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Master the statistical and econometric tools that underpin every quant strategy: hypothesis testing, time-series analysis, regression, and Monte Carlo simulation.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">2.1 Statistics for Finance</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Descriptive &amp; Inferential Statistics</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr" target="_blank">CrashCourse Statistics (YouTube)</a>
+          <a class="curr-res book" href="https://greenteapress.com/wp/think-stats-2e/" target="_blank">Think Stats 2e (free PDF)</a>
+          <a class="curr-res nb" href="https://github.com/AllenDowney/ThinkStats2" target="_blank">Think Stats — Notebooks (GitHub)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Stochastic Processes</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/" target="_blank">MIT OCW — Stochastic Processes</a>
+          <a class="curr-res book" href="http://www.math.ucsd.edu/~pfitz/downloads/courses/spring05/math280c/ghahramani.pdf" target="_blank">Applied Stochastic Processes (PDF)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">2.2 Financial Time-Series Analysis</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">ARIMA, GARCH &amp; Volatility Models</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=e8Yw4alG16Q" target="_blank">Time Series Analysis — ritvikmath (YT)</a>
+          <a class="curr-res book" href="https://www.academia.edu/35568013/Analysis_of_Financial_Time_Series" target="_blank">Tsay — Analysis of Financial Time Series</a>
+          <a class="curr-res nb" href="https://www.statsmodels.org/stable/tsa.html" target="_blank">statsmodels TSA Documentation</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Cointegration &amp; Pairs Trading</div>
+        <div class="curr-resources">
+          <a class="curr-res paper" href="https://quantpedia.com/strategies/pairs-trading-basic-mean-reversion/" target="_blank">QuantPedia — Pairs Trading Overview</a>
+          <a class="curr-res nb" href="https://github.com/quantopian/research_public" target="_blank">Quantopian Research Notebooks (GitHub)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">2.3 Monte Carlo Simulation</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">GBM, Option Pricing via MC</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=6-dhdMDiYWQ" target="_blank">Monte Carlo for Finance — YouTube Tutorial</a>
+          <a class="curr-res nb" href="https://github.com/yhilpisch/py4fi2nd" target="_blank">Python for Finance (Hilpisch) — GitHub Notebooks</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 2 Mini-Project</div>
+      <p>Fit ARIMA + GARCH models to Nifty 50 or S&amp;P 500 returns. Forecast 30-day volatility. Implement a Geometric Brownian Motion simulator in Python and price a European call option via Monte Carlo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="curr-phase" id="phase3">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">3</div>
+    <h2>Financial Markets &amp; Derivatives</h2>
+    <div class="dur">Weeks 15–20</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Understand market microstructure, financial instruments, and derivative pricing models — the domain knowledge every algo trader must have.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">3.1 Market Microstructure</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Order Books, Bid-Ask, Market Making</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=Kl4-VJ2K8Ik" target="_blank">Market Microstructure — NPTEL IIT Lectures</a>
+          <a class="curr-res book" href="https://www.worldscientific.com/worldscibooks/10.1142/7341" target="_blank">Hasbrouck — Empirical Market Microstructure</a>
+          <a class="curr-res paper" href="https://arxiv.org/abs/1012.2248" target="_blank">Limit Order Book Survey (arXiv)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">3.2 Equity &amp; Fixed Income</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Equities, ETFs, Futures, FX Basics</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.khanacademy.org/economics-finance-domain/core-finance" target="_blank">Khan Academy — Core Finance</a>
+          <a class="curr-res book" href="https://www.cfainstitute.org/en/programs/cfa/curriculum" target="_blank">CFA Institute — Free Reading (Level I samples)</a>
+          <a class="curr-res web" href="https://zerodha.com/varsity/" target="_blank">Zerodha Varsity (India-specific, excellent free)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">3.3 Options &amp; Derivatives</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Black-Scholes, Greeks, Volatility Surfaces</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/playlist?list=PLUl4u3cNGP63ctJIEC1UnZ0btsphnnoHR" target="_blank">MIT OCW — Financial Math (15.401)</a>
+          <a class="curr-res book" href="https://www.wiley.com/en-us/Options%2C+Futures%2C+and+Other+Derivatives%2C+11th+Edition-p-9781292410654" target="_blank">Hull — Options, Futures &amp; Other Derivatives (get library copy)</a>
+          <a class="curr-res nb" href="https://github.com/yhilpisch/dx" target="_blank">DX Analytics — Derivatives Pricing (Python)</a>
+          <a class="curr-res web" href="https://zerodha.com/varsity/module/option-theory/" target="_blank">Zerodha Varsity — Option Theory (free)</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 3 Mini-Project</div>
+      <p>Implement a Black-Scholes option pricer in Python. Build an implied volatility surface from live NSE/BSE option chain data. Replicate the payoff of a bull spread and iron condor strategy.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 4 -->
+<div class="curr-phase" id="phase4">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">4</div>
+    <h2>Python for Finance — Data &amp; Backtesting</h2>
+    <div class="dur">Weeks 21–26</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Use Python's financial ecosystem to acquire data, engineer features, and rigorously backtest trading strategies.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">4.1 Market Data &amp; Feature Engineering</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">yfinance, NSEpy, CCXT for Crypto</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://pypi.org/project/yfinance/" target="_blank">yfinance Documentation</a>
+          <a class="curr-res web" href="https://nsepy.xyz/" target="_blank">NSEpy (Indian markets)</a>
+          <a class="curr-res nb" href="https://github.com/stefan-jansen/machine-learning-for-trading" target="_blank">ML for Trading — Jansen Notebooks (GitHub)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Technical Indicators — TA-Lib / Pandas-TA</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://github.com/twopirllc/pandas-ta" target="_blank">Pandas-TA (130+ indicators, free)</a>
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=2BVnN1vqnFw" target="_blank">Python Technical Analysis — Part Time Larry (YT)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">4.2 Backtesting Frameworks</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Backtrader, Vectorbt, Zipline</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://www.backtrader.com/docu/" target="_blank">Backtrader Docs (free, event-driven)</a>
+          <a class="curr-res web" href="https://vectorbt.dev/" target="_blank">VectorBT Docs (vectorized, fast)</a>
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=6Hyb-jfUjkU" target="_blank">Backtrader Full Course — YouTube</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Performance Metrics — Sharpe, Drawdown, Alpha</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://pypi.org/project/pyfolio/" target="_blank">PyFolio — Performance Analytics (free)</a>
+          <a class="curr-res paper" href="https://quantpedia.com/most-used-performance-metrics/" target="_blank">QuantPedia — Performance Metrics Guide</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 4 Mini-Project</div>
+      <p>Build a complete backtest of a Moving Average Crossover + RSI strategy on Nifty 50 data using Backtrader. Compute Sharpe ratio, max drawdown, CAGR. Optimize parameters using a grid search and guard against overfitting with walk-forward analysis.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 5 -->
+<div class="curr-phase" id="phase5">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">5</div>
+    <h2>Machine Learning for Algorithmic Trading</h2>
+    <div class="dur">Weeks 27–36</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Apply the full ML pipeline — from supervised prediction to unsupervised regime detection — to real financial data, with emphasis on avoiding lookahead bias and overfitting.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">5.1 Supervised Learning for Finance</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Regression — Lasso, Ridge, ElasticNet</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=4swNt7PiamQ" target="_blank">StatQuest — Regularized Regression (YT)</a>
+          <a class="curr-res web" href="https://scikit-learn.org/stable/modules/linear_model.html" target="_blank">Scikit-learn Linear Models Docs</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Classification — SVM, Random Forests, XGBoost</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/c/joshstarmer" target="_blank">StatQuest with Josh Starmer (full ML series)</a>
+          <a class="curr-res book" href="https://www.oreilly.com/library/view/machine-learning-for/9781492035183/" target="_blank">Aurélien Géron — Hands-On ML (get free on GitHub)</a>
+          <a class="curr-res nb" href="https://github.com/ageron/handson-ml3" target="_blank">Hands-On ML Notebooks (GitHub)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Walk-Forward Validation &amp; Purged Cross-Validation</div>
+        <div class="curr-resources">
+          <a class="curr-res paper" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3031282" target="_blank">Lopez de Prado — Advances in Financial ML (SSRN preview)</a>
+          <a class="curr-res book" href="https://www.wiley.com/en-us/Advances+in+Financial+Machine+Learning-p-9781119482086" target="_blank">Advances in Financial ML — Lopez de Prado (key text)</a>
+          <a class="curr-res nb" href="https://github.com/hudson-and-thames/mlfinlab" target="_blank">MlFinLab — Financial ML Library (GitHub)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">5.2 Unsupervised Learning &amp; Regime Detection</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">K-Means, GMM, HMM for Market Regimes</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=4b5d3muPQmA" target="_blank">Hidden Markov Models — Victor Lavrenko (YT)</a>
+          <a class="curr-res nb" href="https://github.com/hmmlearn/hmmlearn" target="_blank">hmmlearn Library (GitHub)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Portfolio Optimization — Mean-Variance, Risk Parity</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://pyportfolioopt.readthedocs.io/" target="_blank">PyPortfolioOpt Docs (free library)</a>
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=8TJQhQ2GZ0Y" target="_blank">Portfolio Optimization in Python — YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">5.3 Alternative Data &amp; Sentiment</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">NLP for News &amp; Earnings, FinBERT</div>
+        <div class="curr-resources">
+          <a class="curr-res paper" href="https://arxiv.org/abs/1908.10063" target="_blank">FinBERT Paper (arXiv)</a>
+          <a class="curr-res nb" href="https://github.com/ProsusAI/finBERT" target="_blank">FinBERT Implementation (GitHub)</a>
+          <a class="curr-res web" href="https://huggingface.co/ProsusAI/finbert" target="_blank">FinBERT on Hugging Face (free inference)</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 5 Mini-Project</div>
+      <p>Build an ML-driven long/short equity strategy: engineer 50+ features (price, volume, volatility, sentiment), train an XGBoost classifier with purged k-fold CV, run a full backtest, and compute feature importances. Target Sharpe &gt; 1.0 on out-of-sample data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 6 -->
+<div class="curr-phase" id="phase6">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">6</div>
+    <h2>Algorithmic Trading Systems</h2>
+    <div class="dur">Weeks 37–44</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Design and implement production-grade algo trading systems: strategy types, execution algorithms, risk management, order management, and live broker integration.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">6.1 Strategy Design</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Trend Following, Mean Reversion, Momentum</div>
+        <div class="curr-resources">
+          <a class="curr-res book" href="https://www.amazon.in/Quantitative-Trading-Build-Algorithmic-Business/dp/1119800064" target="_blank">Ernie Chan — Quantitative Trading (highly recommended)</a>
+          <a class="curr-res web" href="https://quantpedia.com/strategies-list/" target="_blank">QuantPedia — 800+ Strategy Descriptions (free tier)</a>
+          <a class="curr-res paper" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2488555" target="_blank">Two Centuries of Momentum (SSRN, free)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Statistical Arbitrage &amp; Market Making</div>
+        <div class="curr-resources">
+          <a class="curr-res paper" href="https://math.nyu.edu/~avellane/HighFrequencyTrading.pdf" target="_blank">Avellaneda-Stoikov Market Making Model (PDF)</a>
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=TLCBsdHaawg" target="_blank">Stat Arb &amp; Pairs Trading — QuantLib (YT)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">6.2 Execution Algorithms</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">TWAP, VWAP, Implementation Shortfall, Stealth Algos</div>
+        <div class="curr-resources">
+          <a class="curr-res paper" href="https://www.math.nyu.edu/~almgren/papers/optliq.pdf" target="_blank">Almgren-Chriss Optimal Execution (PDF)</a>
+          <a class="curr-res web" href="https://www.investopedia.com/terms/t/twap.asp" target="_blank">TWAP Explained — Investopedia</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">6.3 Risk Management</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">VaR, CVaR, Position Sizing, Kelly Criterion</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=0In4-BUbXGM" target="_blank">VaR and CVaR Explained — YouTube</a>
+          <a class="curr-res nb" href="https://github.com/quantopian/research_public/blob/master/notebooks/lectures/Position_Concentration_Risk/notebook.ipynb" target="_blank">Quantopian — Position Concentration Risk (GitHub)</a>
+          <a class="curr-res book" href="https://www.amazon.in/Quantitative-Risk-Management-Princeton-Finance/dp/0691166277" target="_blank">McNeil et al. — Quantitative Risk Management</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">6.4 Live Trading Integration (India + Global)</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Zerodha Kite Connect API (India), Interactive Brokers API</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://kite.trade/docs/connect/v3/" target="_blank">Kite Connect API Docs (free sandbox)</a>
+          <a class="curr-res web" href="https://interactivebrokers.github.io/tws-api/" target="_blank">Interactive Brokers TWS API Docs</a>
+          <a class="curr-res nb" href="https://github.com/zerodha/pykiteconnect" target="_blank">PyKiteConnect Library (GitHub)</a>
+          <a class="curr-res tool" href="https://streak.tech/" target="_blank">Streak — No-code Algo (free tier, NSE/BSE)</a>
+          <a class="curr-res tool" href="https://www.amibroker.com/" target="_blank">AmiBroker (backtesting + live, popular in India)</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 6 Mini-Project</div>
+      <p>Build a complete event-driven algo trading system in Python: (1) real-time data handler, (2) strategy module (momentum + mean reversion), (3) portfolio risk manager with position limits and stop-loss, (4) order execution via paper trading on Zerodha sandbox or Alpaca (US paper trading). Simulate 30 days of paper trading.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 7 -->
+<div class="curr-phase" id="phase7">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">7</div>
+    <h2>AI &amp; Deep Learning for Finance</h2>
+    <div class="dur">Weeks 45–52</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Apply deep learning — LSTMs, Transformers, Reinforcement Learning — to price forecasting, strategy generation, and autonomous trading agents.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">7.1 Neural Networks Foundations</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Feedforward Networks, Backprop, Regularization</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.deeplearning.ai/courses/deep-learning-specialization/" target="_blank">DeepLearning.AI — Deep Learning Specialization (free audit)</a>
+          <a class="curr-res book" href="https://www.deeplearningbook.org/" target="_blank">Goodfellow et al. — Deep Learning Book (free online)</a>
+          <a class="curr-res nb" href="https://github.com/fastai/fastbook" target="_blank">Fast.ai — Practical Deep Learning Notebooks (GitHub)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">7.2 Recurrent Networks for Time Series</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">RNN, LSTM, GRU for Price Forecasting</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/watch?v=WCUNPb-5EYI" target="_blank">LSTM Explained — Andrej Karpathy's blog + video</a>
+          <a class="curr-res nb" href="https://github.com/stefan-jansen/machine-learning-for-trading/tree/main/18_recurrent_neural_nets" target="_blank">ML for Trading — RNN Chapter Notebooks (GitHub)</a>
+          <a class="curr-res paper" href="https://arxiv.org/abs/1706.03762" target="_blank">Attention is All You Need (Transformer paper, arXiv)</a>
+        </div>
+      </div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Temporal Fusion Transformer, N-BEATS for TS</div>
+        <div class="curr-resources">
+          <a class="curr-res web" href="https://unit8co.github.io/darts/" target="_blank">Darts — Time Series Library (free, incl. TFT)</a>
+          <a class="curr-res nb" href="https://github.com/unit8co/darts/blob/master/examples/13-TFT-examples.ipynb" target="_blank">TFT Example Notebook (GitHub)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">7.3 Reinforcement Learning for Trading</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">Q-Learning, DQN, PPO for Portfolio Management</div>
+        <div class="curr-resources">
+          <a class="curr-res vid" href="https://www.youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ" target="_blank">DeepMind RL Lectures (YouTube)</a>
+          <a class="curr-res nb" href="https://github.com/AI4Finance-Foundation/FinRL" target="_blank">FinRL — Deep RL for Finance (GitHub, active)</a>
+          <a class="curr-res paper" href="https://arxiv.org/abs/2011.09607" target="_blank">FinRL Paper (arXiv)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">7.4 Generative AI &amp; LLMs in Finance</div>
+      <div class="curr-topic">
+        <div class="curr-topic-name">LLM Agents for Market Research, FinGPT</div>
+        <div class="curr-resources">
+          <a class="curr-res nb" href="https://github.com/AI4Finance-Foundation/FinGPT" target="_blank">FinGPT — Open-Source Finance LLM (GitHub)</a>
+          <a class="curr-res paper" href="https://arxiv.org/abs/2306.06031" target="_blank">FinGPT Paper (arXiv)</a>
+          <a class="curr-res web" href="https://huggingface.co/blog/financial-llms" target="_blank">Hugging Face — Financial LLMs Overview</a>
+        </div>
+      </div>
+    </div>
+    <div class="curr-project">
+      <div class="curr-project-label">📌 Phase 7 Mini-Project</div>
+      <p>Train an LSTM + attention model to forecast next-day Nifty returns. Build a FinRL DQN agent that learns a long/short trading policy on historical data. Compare agent performance vs. your Phase 5 XGBoost strategy by Sharpe ratio and maximum drawdown.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CAPSTONE -->
+<div class="curr-phase" id="capstone">
+  <div class="curr-phase-hdr">
+    <div class="curr-phase-num">★</div>
+    <h2>Capstone Projects (Portfolio-Ready)</h2>
+    <div class="dur">Final 4 weeks</div>
+  </div>
+  <div class="curr-phase-body">
+    <p class="curr-goal">Complete 2–3 of these projects and publish to GitHub. They demonstrate job-ready skills to hedge funds, prop desks, and quant firms.</p>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">Capstone A — End-to-End Systematic Strategy</div>
+      <div class="curr-topic">
+        <div class="curr-resources">
+          <a class="curr-res nb" href="https://github.com/stefan-jansen/machine-learning-for-trading" target="_blank">ML for Trading Reference (Jansen — GitHub)</a>
+        </div>
+      </div>
+      <ul class="curr-checklist">
+        <li>Universe selection: Nifty 500 or S&amp;P 500 constituent filtering</li>
+        <li>Feature engineering: 60+ alpha factors (price, vol, fundamental, sentiment)</li>
+        <li>ML model: LightGBM with purged walk-forward CV</li>
+        <li>Execution: Transaction cost model + slippage estimation</li>
+        <li>Risk: VaR limits, sector neutrality, max drawdown guardrails</li>
+        <li>Report: Monthly performance attribution and tearsheet (PyFolio)</li>
+      </ul>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">Capstone B — High-Frequency / Intraday Algo</div>
+      <ul class="curr-checklist">
+        <li>Tick data acquisition via Zerodha WebSocket or Alpaca streaming API</li>
+        <li>Implement VWAP execution algorithm with slippage tracking</li>
+        <li>Build an order book imbalance signal and test its predictive power</li>
+        <li>Deploy on local machine with real-time monitoring dashboard (Streamlit)</li>
+      </ul>
+    </div>
+
+    <div class="curr-mod">
+      <div class="curr-mod-title">Capstone C — RL Trading Agent</div>
+      <ul class="curr-checklist">
+        <li>Environment: Custom OpenAI Gym env wrapping historical Nifty data</li>
+        <li>Agent: PPO (Proximal Policy Optimization) via Stable Baselines3</li>
+        <li>State: Price history + technical indicators + portfolio state</li>
+        <li>Reward: Risk-adjusted return (Sharpe-based reward shaping)</li>
+        <li>Benchmark comparison vs. buy-and-hold and MA crossover strategy</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+    </div>
   </div>
 
   <!-- ── SETTINGS & DB ── -->

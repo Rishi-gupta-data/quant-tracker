@@ -37,12 +37,15 @@ function navigate(page) {
   else if (page === 'review') renderReview();
   else if (page === 'notes') renderNotes();
   else if (page === 'settings') renderSettings();
+  else if (page === 'curriculum') renderCurriculum();
 }
 
 window.addEventListener('hashchange', () => {
   const h = location.hash.replace('#','') || 'dashboard';
   navigate(h);
 });
+
+function renderCurriculum() { /* Static HTML is already loaded */ }
 
 // ═══════════════════ DASHBOARD ═══════════════════
 function renderDashboard() {
@@ -97,6 +100,9 @@ function renderDashboard() {
 
   // Study hours chart
   renderWeekChart(studyLog);
+
+  // Reminders
+  renderReminders();
 }
 
 function calcStreak(studyLog) {
@@ -228,6 +234,41 @@ function renderWeekChart(studyLog) {
       ctx.fillText(actuals[i].toFixed(1), x + gap * 0.3, h - 34 - actualH);
     }
   });
+}
+
+// ═══════════════════ REMINDERS ═══════════════════
+function renderReminders() {
+  const reminders = load(STORE.REMINDERS, []);
+  const el = document.getElementById('reminders-list');
+  if (!el) return;
+  if (!reminders.length) { el.innerHTML = '<div class="empty-state" style="padding:16px">No reminders set. Add one above!</div>'; return; }
+  el.innerHTML = reminders.map((r,i) => `
+    <div class="task-item" style="padding: 12px 16px;">
+      <div style="flex:1">
+        <div class="task-text" style="font-size:14px; font-weight: 500; color:var(--text);">${r.text}</div>
+        <div style="font-size:11px; color:var(--text3); margin-top:6px; font-family:var(--font-mono)">Added: ${new Date(r.date).toLocaleDateString('en-IN', {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</div>
+      </div>
+      <button class="del-btn" onclick="deleteReminder(${i})">🗑️</button>
+    </div>`).join('');
+}
+
+function addReminder() {
+  const input = document.getElementById('new-reminder-input');
+  const text = input?.value.trim();
+  if (!text) return;
+  const reminders = load(STORE.REMINDERS, []);
+  reminders.push({ text, date: new Date().toISOString() });
+  save(STORE.REMINDERS, reminders);
+  if (input) input.value = '';
+  renderReminders();
+  showToast('Reminder added! 🔔');
+}
+
+function deleteReminder(i) {
+  const reminders = load(STORE.REMINDERS, []);
+  reminders.splice(i, 1);
+  save(STORE.REMINDERS, reminders);
+  renderReminders();
 }
 
 // ═══════════════════ PROGRESS ═══════════════════
