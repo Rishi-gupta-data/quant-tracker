@@ -7,12 +7,28 @@ let currentPage = 'dashboard';
 let fcIndex = 0, fcPhaseFilter = 'all', fcFlipped = false;
 let quizState = { questions: [], index: 0, score: 0, answers: [], phase: 'all', active: false };
 
+// ── Mobile sidebar ──
+function toggleSidebar() {
+  const sb = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const btn = document.getElementById('hamburger-btn');
+  sb.classList.toggle('open');
+  overlay.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar')?.classList.remove('open');
+  document.getElementById('sidebar-overlay')?.classList.remove('open');
+  document.getElementById('hamburger-btn')?.classList.remove('open');
+}
+
 // ── Router ──
 function navigate(page) {
   currentPage = page;
   document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === page));
   document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
   window.location.hash = page;
+  closeSidebar(); // close mobile nav on navigation
   if (page === 'dashboard') renderDashboard();
   else if (page === 'progress') renderProgress();
   else if (page === 'flashcards') renderFlashcards();

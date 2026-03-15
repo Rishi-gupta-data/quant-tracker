@@ -1,0 +1,9 @@
+{
+  "name": "quant-tracker",
+  "version": "2.1.0",
+  "description": "Rishi's Quant Finance & Algo Trading study tracker",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  }
+}

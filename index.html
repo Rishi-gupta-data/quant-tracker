@@ -8,9 +8,53 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="css/style.css"/>
 <script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
+<style>
+/* ── Mobile hamburger & overlay ── */
+.mobile-header{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--surface1);border-bottom:1px solid var(--border);z-index:200;align-items:center;padding:0 16px;gap:12px}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text1);border-radius:2px;transition:.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-title{font-size:14px;font-weight:700;font-family:var(--font-mono);color:var(--text1)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:149}
+.sidebar-overlay.open{display:block}
+@media(max-width:768px){
+  .mobile-header{display:flex}
+  .sidebar{transform:translateX(-100%);transition:transform .3s;z-index:150;top:0}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0!important;padding:70px 16px 24px}
+}
+/* ── Responsive grid fixes ── */
+@media(max-width:900px){
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .dash-grid,.dash-grid-3,.review-grid,.settings-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .overall-progress{flex-direction:column;gap:12px}
+  .fc-flip-wrap{height:220px}
+  .fc-actions{flex-wrap:wrap;gap:8px}
+  .quiz-opts .quiz-opt{font-size:13px}
+  .page-header h1{font-size:20px}
+  .notes-phase-tabs{flex-wrap:wrap;gap:4px}
+  .settings-grid{grid-template-columns:1fr}
+}
+/* ── DB status badge ── */
+.db-status-note{margin-top:14px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--text3);font-family:var(--font-mono);line-height:1.7}
+</style>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>"/>
 </head>
 <body>
+
+<!-- ══════════════ MOBILE HEADER ══════════════ -->
+<div class="mobile-header">
+  <button class="hamburger" id="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mobile-title">📈 QUANT TRACKER</div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <!-- ══════════════ BOOT LOADER ══════════════ -->
 <div id="boot-loader">
@@ -372,8 +416,8 @@
         <div id="db-status-panel">
           <div class="db-stat-row"><span>Status</span><strong>Loading...</strong></div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--text3);font-family:var(--font-mono);line-height:1.7">
-          PouchDB stores data in your browser's IndexedDB — much more reliable than localStorage. No size limits, no data loss on storage pressure. All data stays on your device.
+        <div class="db-status-note">
+          Data is synced to the cloud via the <strong>/api/sync</strong> endpoint and persisted in Vercel KV. PouchDB caches everything locally for instant offline access. Your progress is safe across devices and browser clears.
         </div>
       </div>
 
@@ -395,6 +439,9 @@
         <h3><span>💾</span> Backup & Restore</h3>
         <button class="settings-btn" onclick="exportData()">
           <span class="btn-icon">⬇️</span> Export all data as JSON
+        </button>
+        <button class="settings-btn" onclick="cloudPushAll()" style="border-color:rgba(16,185,129,.4);color:#10b981">
+          <span class="btn-icon">☁️</span> Force sync to cloud
         </button>
         <button class="settings-btn" onclick="importData()">
           <span class="btn-icon">⬆️</span> Import from JSON backup
