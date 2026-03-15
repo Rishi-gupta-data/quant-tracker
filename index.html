@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rishi's Quant Tracker · 10 Month Plan</title>
+<meta name="description" content="Personal quant finance & algo trading study tracker for Rishi Gupta"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>"/>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">QUANT TRACKER</div>
+    <div class="logo-name">Rishi's<br>10-Month Plan</div>
+    <div class="logo-sub">20 hrs/wk · ₹0 cost</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Main</div>
+    <button class="nav-link active" data-page="dashboard" onclick="navigate('dashboard')">
+      <span class="nav-icon">📊</span><span>Dashboard</span>
+    </button>
+    <button class="nav-link" data-page="progress" onclick="navigate('progress')">
+      <span class="nav-icon">📈</span><span>Progress</span>
+    </button>
+    <button class="nav-link" data-page="tasks" onclick="navigate('tasks')">
+      <span class="nav-icon">✅</span><span>Tasks</span>
+    </button>
+    <button class="nav-link" data-page="review" onclick="navigate('review')">
+      <span class="nav-icon">📅</span><span>Weekly Review</span>
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Study Tools</div>
+    <button class="nav-link" data-page="flashcards" onclick="navigate('flashcards')">
+      <span class="nav-icon">🃏</span><span>Flashcards</span>
+    </button>
+    <button class="nav-link" data-page="quiz" onclick="navigate('quiz')">
+      <span class="nav-icon">🧠</span><span>Quiz</span>
+    </button>
+    <button class="nav-link" data-page="notes" onclick="navigate('notes')">
+      <span class="nav-icon">📝</span><span>Notes</span>
+    </button>
+  </div>
+
+  <div class="sidebar-bottom">
+    <button class="log-btn" onclick="openLogModal()">
+      <span>+ Log Study Hours</span>
+    </button>
+    <div class="week-badge">
+      <div>Current Week</div>
+      <span id="sidebar-week">1</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════ MAIN CONTENT ══════════════ -->
+<main class="main">
+
+  <!-- ── DASHBOARD ── -->
+  <div id="page-dashboard" class="page active">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <p>QUANT_FINANCE · ALGO_TRADING · 10_MONTHS · 20_HRS_WEEK</p>
+    </div>
+
+    <!-- Overall progress -->
+    <div class="overall-progress">
+      <div>
+        <div class="op-label">Overall Progress</div>
+        <div class="op-pct" id="dash-overall-pct">0%</div>
+        <div class="op-sub" id="dash-topics-done">0 / 0 topics</div>
+      </div>
+      <div style="flex:1">
+        <div class="op-bar-wrap"><div class="op-bar-fill" id="dash-overall-bar" style="width:0%"></div></div>
+        <div style="display:flex;gap:24px;margin-top:14px;flex-wrap:wrap;">
+          <div class="stat-mini"><div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:1px">Current</div><div id="dash-current-phase" style="font-size:13px;font-weight:700;margin-top:2px">Phase 0</div></div>
+          <div class="stat-mini"><div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:1px">Week</div><div id="dash-current-week" style="font-size:13px;font-weight:700;margin-top:2px;color:var(--gold)">Week 1</div></div>
+          <div class="stat-mini"><div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:1px">Streak</div><div id="dash-streak" style="font-size:13px;font-weight:700;margin-top:2px;color:var(--red)">0 days</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="dash-stats">
+      <div class="stat-card" style="--c1:#3b82f6;--c2:#8b5cf6">
+        <div class="stat-label">This Week</div>
+        <div class="stat-value" id="dash-hours-week">0 / 19.5</div>
+        <div class="stat-sub">hours logged</div>
+      </div>
+      <div class="stat-card" style="--c1:#10b981;--c2:#3b82f6">
+        <div class="stat-label">Week Tasks</div>
+        <div class="stat-value" id="dash-week-tasks">0 / 0</div>
+        <div class="stat-sub">completed</div>
+      </div>
+      <div class="stat-card" style="--c1:#f59e0b;--c2:#ef4444">
+        <div class="stat-label">Study Streak</div>
+        <div class="stat-value" id="dash-streak-card">—</div>
+        <div class="stat-sub">days in a row</div>
+      </div>
+      <div class="stat-card" style="--c1:#a855f7;--c2:#ec4899">
+        <div class="stat-label">Flashcards</div>
+        <div class="stat-value" id="dash-fc-known">0</div>
+        <div class="stat-sub">marked known</div>
+      </div>
+    </div>
+
+    <!-- Phase strip + activity -->
+    <div class="dash-grid">
+      <div class="panel">
+        <div class="panel-title">Phase Progress <span style="cursor:pointer;color:var(--accent)" onclick="navigate('progress')">→ view all</span></div>
+        <div class="phase-strip" id="dash-phase-strip"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Today's Tasks</div>
+        <div id="dash-today-tasks"></div>
+      </div>
+    </div>
+
+    <!-- Chart + activity -->
+    <div class="dash-grid-3">
+      <div class="panel">
+        <div class="panel-title">This Week — Daily Hours <span style="color:var(--text3);font-size:10px">target shown as background</span></div>
+        <canvas id="dash-week-chart"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Recent Activity</div>
+        <div id="dash-activity"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROGRESS ── -->
+  <div id="page-progress" class="page">
+    <div class="page-header">
+      <h1>Progress Tracker</h1>
+      <p>Mark topics as not started / in progress / done. Click a phase to expand.</p>
+    </div>
+    <div id="progress-phases"></div>
+  </div>
+
+  <!-- ── FLASHCARDS ── -->
+  <div id="page-flashcards" class="page">
+    <div class="page-header">
+      <h1>Flashcards</h1>
+      <p>Space → flip · ← → navigate · 1 = Known · 2 = Review</p>
+    </div>
+    <div class="fc-container">
+      <div id="fc-phase-filter" class="fc-filter-row"></div>
+      <div class="fc-stats">
+        <div class="fc-stats-text" id="fc-count">1 / 23</div>
+        <div class="fc-known-bar"><div class="fc-known-fill" id="fc-progress-bar" style="width:0%"></div></div>
+        <div class="fc-stats-text" id="fc-known-count">0 known</div>
+      </div>
+
+      <div class="fc-flip-wrap">
+        <div class="fc-card" id="fc-card" onclick="flipCard()">
+          <div class="fc-face fc-front" id="fc-front"></div>
+          <div class="fc-face fc-back" id="fc-back"></div>
+        </div>
+      </div>
+
+      <div class="fc-hint">Click card or press Space to flip · Use arrow keys to navigate</div>
+
+      <div class="fc-actions">
+        <button class="fc-btn" onclick="prevCard()">← Prev</button>
+        <button class="fc-btn review" id="fc-review-btn" onclick="markFC('review')">🔁 Review Again</button>
+        <button class="fc-btn known" id="fc-known-btn" onclick="markFC('known')">✓ Known</button>
+        <button class="fc-btn" onclick="nextCard()">Next →</button>
+        <button class="fc-btn" onclick="shuffleCards()" title="Random card">⇄ Shuffle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUIZ ── -->
+  <div id="page-quiz" class="page">
+    <div class="page-header">
+      <h1>Knowledge Quiz</h1>
+      <p>Test your understanding — 14 questions across all 7 phases</p>
+    </div>
+    <div class="quiz-container">
+
+      <!-- Setup -->
+      <div id="quiz-setup">
+        <div class="quiz-setup-stats">
+          <div class="qss-card">
+            <div class="qss-label">Best Score</div>
+            <div class="qss-val" id="quiz-best">—</div>
+          </div>
+          <div class="qss-card">
+            <div class="qss-label">Attempts</div>
+            <div class="qss-val" id="quiz-attempts">0</div>
+          </div>
+          <div class="qss-card">
+            <div class="qss-label">Last Score</div>
+            <div class="qss-val" style="font-size:14px;padding-top:4px" id="quiz-last">—</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:16px;">Select quiz scope:</div>
+        <div class="quiz-start-btns">
+          <button class="quiz-start-btn primary" onclick="startQuiz('all')">All Phases (14 Qs)</button>
+          <button class="quiz-start-btn" onclick="startQuiz('1')">Phase 1: Quant Math</button>
+          <button class="quiz-start-btn" onclick="startQuiz('2')">Phase 2: Time Series</button>
+          <button class="quiz-start-btn" onclick="startQuiz('3')">Phase 3: Derivatives</button>
+          <button class="quiz-start-btn" onclick="startQuiz('4')">Phase 4: Backtesting</button>
+          <button class="quiz-start-btn" onclick="startQuiz('5')">Phase 5: ML Trading</button>
+          <button class="quiz-start-btn" onclick="startQuiz('6')">Phase 6: Algo Systems</button>
+          <button class="quiz-start-btn" onclick="startQuiz('7')">Phase 7: Deep RL</button>
+        </div>
+      </div>
+
+      <!-- Active question -->
+      <div id="quiz-active" style="display:none">
+        <div class="quiz-progress-row">
+          <span id="quiz-q-num">1 / 10</span>
+          <span id="quiz-score-live" style="color:var(--green);font-weight:700"></span>
+        </div>
+        <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-bar"></div></div>
+        <div class="quiz-question-card">
+          <div class="quiz-q-meta" id="quiz-q-phase"></div>
+          <div class="quiz-q-text" id="quiz-q-text"></div>
+        </div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-explanation" id="quiz-explanation" style="display:none"></div>
+      </div>
+
+      <!-- Result -->
+      <div id="quiz-result" style="display:none">
+        <div class="quiz-result-card">
+          <div class="qr-score-num" id="qr-score">—</div>
+          <div class="qr-correct" id="qr-correct"></div>
+          <div class="qr-grade" id="qr-grade"></div>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button class="quiz-start-btn primary" onclick="startQuiz('all')">Try Again</button>
+            <button class="quiz-start-btn" onclick="quizState.active=false;renderQuizSetup()">Back to Menu</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── TASKS ── -->
+  <div id="page-tasks" class="page">
+    <div class="page-header">
+      <h1>Tasks</h1>
+      <p>Daily & weekly study tasks — tick off as you complete them</p>
+    </div>
+    <div class="tasks-header">
+      <button class="week-nav-btn" onclick="changeWeek(-1)">‹</button>
+      <div id="tasks-week-display">Week 1</div>
+      <button class="week-nav-btn" onclick="changeWeek(1)">›</button>
+    </div>
+    <div id="tasks-cont"></div>
+    <div class="custom-task-section">
+      <h3>CUSTOM TASKS</h3>
+      <div class="add-task-row">
+        <input type="text" id="new-task-input" placeholder="Add a custom task..." onkeydown="if(event.key==='Enter')addCustomTask()"/>
+        <button class="add-btn" onclick="addCustomTask()">+ Add</button>
+      </div>
+      <div id="custom-tasks-list"></div>
+    </div>
+  </div>
+
+  <!-- ── WEEKLY REVIEW ── -->
+  <div id="page-review" class="page">
+    <div class="page-header">
+      <h1>Weekly Review</h1>
+      <p id="review-week-num">Week 1</p>
+    </div>
+
+    <!-- Log study session -->
+    <div class="log-session-card">
+      <h3>📚 Log Study Session</h3>
+      <div class="log-row">
+        <input class="log-input" type="number" id="log-hours-input" placeholder="Hours studied (e.g. 2.5)" min="0.5" max="12" step="0.5"/>
+        <select class="log-select" id="log-phase-select"></select>
+      </div>
+      <div class="log-row">
+        <input class="log-input" id="log-note-input" placeholder="What did you study? (optional)"/>
+        <button class="log-submit" onclick="logStudyHours()">Log →</button>
+      </div>
+      <div style="font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-top:6px">
+        This week: <span class="hours-display" id="review-hours-logged">0</span> / 19.5 hrs
+      </div>
+    </div>
+
+    <div class="review-grid">
+      <!-- Review form -->
+      <div>
+        <div class="review-card" style="margin-bottom:16px">
+          <h3>✅ This Week's Wins</h3>
+          <textarea class="review-textarea" id="review-wins" placeholder="What went well? Topics mastered, projects completed, aha moments..."></textarea>
+        </div>
+        <div class="review-card" style="margin-bottom:16px">
+          <h3>🔧 Struggles & Gaps</h3>
+          <textarea class="review-textarea" id="review-struggles" placeholder="What was hard? What do you need to revisit?"></textarea>
+        </div>
+        <div class="review-card" style="margin-bottom:16px">
+          <h3>🎯 Plan for Next Week</h3>
+          <textarea class="review-textarea" id="review-next" placeholder="What will you focus on next week? Specific topics, projects, resources..."></textarea>
+        </div>
+        <div class="review-card">
+          <h3>😊 Energy & Motivation</h3>
+          <div class="mood-row">
+            <input type="range" class="mood-slider" id="review-mood" min="1" max="5" value="3" oninput="updateMoodDisplay(this.value)"/>
+            <span id="mood-display">😐</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:var(--font-mono)">
+            <span>Burnt out</span><span>Average</span><span>On fire 🚀</span>
+          </div>
+        </div>
+        <button class="save-review-btn" onclick="saveWeeklyReview()">Save Weekly Review</button>
+      </div>
+
+      <!-- Past reviews -->
+      <div>
+        <div class="review-card">
+          <h3>📋 Past Reviews</h3>
+          <div id="past-reviews"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NOTES ── -->
+  <div id="page-notes" class="page">
+    <div class="page-header">
+      <h1>Study Notes</h1>
+      <p>One notebook per phase — markdown-friendly, auto-saved on button click</p>
+    </div>
+    <div class="notes-phase-tabs" id="notes-phase-tabs"></div>
+    <div class="notes-label" id="notes-phase-label"></div>
+    <textarea id="notes-textarea" placeholder="Write your notes here...&#10;&#10;Supports plain text. Use markdown-style formatting:&#10;## Headers&#10;- Bullet points&#10;**Bold** *italic*&#10;&#10;Formula: wᵀΣw = portfolio variance&#10;Code: pip install pandas yfinance"></textarea>
+    <button class="save-note-btn" onclick="saveNote()">Save Notes</button>
+  </div>
+
+</main>
+
+<!-- ══════════════ LOG MODAL ══════════════ -->
+<div class="modal-backdrop" id="log-modal">
+  <div class="modal">
+    <h2>📚 Log Study Session</h2>
+    <div class="modal-row">
+      <label class="modal-label">Hours Studied</label>
+      <input class="modal-input" type="number" id="modal-hours" placeholder="e.g. 2.5" min="0.5" max="12" step="0.5"/>
+    </div>
+    <div class="modal-row">
+      <label class="modal-label">Phase</label>
+      <select class="modal-input" id="log-phase-select-modal"></select>
+    </div>
+    <div class="modal-row">
+      <label class="modal-label">Note (optional)</label>
+      <input class="modal-input" id="modal-note" placeholder="What did you study?"/>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-submit" onclick="logFromModal()">Log Session ✓</button>
+      <button class="modal-cancel" onclick="closeLogModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TOAST ══════════════ -->
+<div class="toast" id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+// Extra helpers
+document.addEventListener('DOMContentLoaded', () => {
+  // Sync sidebar week badge
+  const w = load(STORE.CURRENT_WEEK, 1);
+  const el = document.getElementById('sidebar-week');
+  if (el) el.textContent = w;
+
+  // Build phase selects
+  ['log-phase-select', 'log-phase-select-modal'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) sel.innerHTML = APP_DATA.phases.map(p => `<option value="${p.id}">Phase ${p.num}: ${p.title}</option>`).join('');
+  });
+
+  // Dash fc known count
+  const fcStatus = load(STORE.FC_STATUS, {});
+  const known = Object.values(fcStatus).filter(v => v === 'known').length;
+  const el2 = document.getElementById('dash-fc-known');
+  if (el2) el2.textContent = known;
+
+  // Streak card
+  const studyLog = load(STORE.STUDY_LOG, []);
+  const streak = calcStreak(studyLog);
+  const sc = document.getElementById('dash-streak-card');
+  if (sc) sc.textContent = streak;
+});
+
+function logFromModal() {
+  const hours = parseFloat(document.getElementById('modal-hours').value);
+  const note = document.getElementById('modal-note').value;
+  const phase = parseInt(document.getElementById('log-phase-select-modal').value);
+  if (!hours || hours <= 0) { showToast('Enter valid hours', 'error'); return; }
+  const studyLog = load(STORE.STUDY_LOG, []);
+  studyLog.push({ hours, note, phase, date: new Date().toISOString() });
+  save(STORE.STUDY_LOG, studyLog);
+  closeLogModal();
+  showToast('Session logged! +' + hours + ' hrs 📚');
+  if (currentPage === 'dashboard') renderDashboard();
+  if (currentPage === 'review') renderReview();
+}
+</script>
+</body>
+</html>
