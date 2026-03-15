@@ -11,17 +11,28 @@ let _cloudSynced = false;
 
 // ── Init ──
 async function initDB() {
+  const statusEl = document.getElementById('boot-status');
   try {
+    if (statusEl) statusEl.textContent = 'Connecting to PouchDB...';
     _db = new PouchDB(DB_NAME);
     await _db.info();
     _dbReady = true;
     console.log('%c[DB] PouchDB ready ✓', 'color:#10b981;font-weight:700');
+    
+    if (statusEl) statusEl.textContent = 'Migrating local data...';
     await migrateFromLocalStorage();
-    // Pull latest from cloud on boot
-    await cloudPull();
+    
+    // Pull latest from cloud in background (don't block boot)
+    if (statusEl) statusEl.textContent = 'Checking cloud sync...';
+    cloudPull().then(() => {
+      if (_cloudSynced && typeof renderDashboard === 'function' && currentPage === 'dashboard') {
+        renderDashboard(); // re-render if we pulled new data
+      }
+    });
   } catch (err) {
     console.warn('[DB] PouchDB failed, falling back to localStorage:', err);
     _dbReady = false;
+    if (statusEl) statusEl.textContent = 'PouchDB failed, using localStorage';
   }
 }
 

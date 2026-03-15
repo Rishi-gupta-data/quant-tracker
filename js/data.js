@@ -229,22 +229,4 @@ const APP_DATA = {
 
 };
 
-// localStorage keys
-const STORE = {
-  PROGRESS: 'rq_progress',
-  QUIZ_SCORES: 'rq_quiz_scores',
-  FC_STATUS: 'rq_fc_status',
-  TASKS: 'rq_tasks',
-  WEEKLY_REVIEWS: 'rq_weekly_reviews',
-  CURRENT_WEEK: 'rq_current_week',
-  NOTES: 'rq_notes',
-  STUDY_LOG: 'rq_study_log',
-  REMINDERS: 'rq_reminders',
-};
-
-function load(key, def = {}) {
-  try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; }
-}
-function save(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
-}
+// localStorage keys are now managed in js/db.js
